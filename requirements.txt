@@ -3,3 +3,6 @@ sqlalchemy
 psycopg2
 gunicorn
 pytest
+pytest-cov
+pytest-pep8
+sphinx
