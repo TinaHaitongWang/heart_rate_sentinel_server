@@ -1,4 +1,5 @@
 from check_is_tachycardic import check_tachycardic
+import pytest
 
 
 @pytest.mark.parametrize("age, heart_rate, expected", [
