@@ -3,7 +3,8 @@ import logging
 
 def validate_new_patient(r):
     """
-    this function validate if the user input patient data is in the correct format
+    this function validate if the user input patient data is in the correct
+    format
     :param r:
     :return:
     """
@@ -48,8 +49,6 @@ def is_patient_id_exist(patient_id, patient_list):
     except ValueError:
         logging.error("Please enter the valid id in string")
     return is_patient_id_exist
-
-
 # if __name__ == '__main__':
 #     p1 = {"patient_id": "1",
 #           "attending_email": "comehelpme@bestdoc.com",
