@@ -1,7 +1,6 @@
 from validate_input import is_patient_id_exist, validate_new_patient
 import pytest
 
-
 p1 = {"patient_id": "1",
       "attending_email": "comehelpme@bestdoc.com",
       "user_age": 40}
@@ -37,4 +36,3 @@ patient_list = [p1, p4, p3]
 def test_is_patient_id_exist(patient_id, patient_list, expected):
     output = is_patient_id_exist(patient_id, patient_list)
     assert output == expected
-
