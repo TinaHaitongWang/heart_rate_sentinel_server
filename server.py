@@ -54,14 +54,14 @@ def add_patient():
         p = Patient(r['patient_id'], r['attending_email'], r['user_age'])
         patient_list.append(p.to_dict())
         result = {
-            "message": "Added user {0} successfully to the "
-                       "class list".format(request.json["patient_id"])
+            "message": "Added patient {0} successfully to the "
+                       "patient list".format(request.json["patient_id"])
         }
 
     except KeyError as error:
         logging.error(error)
         return jsonify({"message": error}), 500
-
+    print(patient_list)
     return jsonify(result)
 
 
@@ -135,14 +135,15 @@ def get_status(patient_id):
         for patient in patient_list:
             if patient_id == patient.get('patient_ide'):
                 latest_heart_rate = patient.get('heart_rate')[-1]
-                is_tachycardic = check_tachycardic(patient.user_age,
+                is_tachycardic = check_tachycardic(patient.get('user_age'),
                                                    latest_heart_rate)
-
+        print("is_tachycardic", is_tachycardic)
         if is_tachycardic == "tachycardic":
             sg = sendgrid.SendGridAPIClient(apikey=os.environ.get('SENDGRID_'
                                                                   'API_KEY'))
             from_email = "SOS@tachycardic.com"
             to_email = patient.get('attending_email')
+            print(to_email)
             subject = "Your patient is Tachycardic"
             content = "your patient {} is tachycardic"\
                 .format(patient.get('patient_id'))
