@@ -7,7 +7,7 @@ the heart rate sentinel server.
 this is hitting from local machine, http://127.0.0.1"""
 
 # make new patient post request
-attending_email = "hw188@duke.edu"
+attending_email = "GoodDoctor@gd.com"
 user_age = [0.3, 1, 12, 19, 23, 32, 38, 41, 55, 70, 90]
 
 for patient_id, user_age in enumerate(user_age):
