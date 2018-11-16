@@ -133,7 +133,8 @@ latex_elements = {
 # (source start file, target name, title,
 #  author, documentclass [howto, manual, or own class]).
 latex_documents = [
-    (master_doc, 'BME590HeartRateSentinelServer.tex', 'BME 590: Heart Rate Sentinel Server Documentation',
+    (master_doc, 'BME590HeartRateSentinelServer.tex',
+     'BME 590: Heart Rate Sentinel Server Documentation',
      'Haitong Wang', 'manual'),
 ]
 
@@ -143,7 +144,8 @@ latex_documents = [
 # One entry per manual page. List of tuples
 # (source start file, name, description, authors, manual section).
 man_pages = [
-    (master_doc, 'bme590heartratesentinelserver', 'BME 590: Heart Rate Sentinel Server Documentation',
+    (master_doc, 'bme590heartratesentinelserver',
+     'BME 590: Heart Rate Sentinel Server Documentation',
      [author], 1)
 ]
 
@@ -154,8 +156,10 @@ man_pages = [
 # (source start file, target name, title, author,
 #  dir menu entry, description, category)
 texinfo_documents = [
-    (master_doc, 'BME590HeartRateSentinelServer', 'BME 590: Heart Rate Sentinel Server Documentation',
-     author, 'BME590HeartRateSentinelServer', 'One line description of project.',
+    (master_doc, 'BME590HeartRateSentinelServer',
+     'BME 590: Heart Rate Sentinel Server Documentation',
+     author, 'BME590HeartRateSentinelServer',
+     'One line description of project.',
      'Miscellaneous'),
 ]
 
