@@ -6,13 +6,13 @@ It demonstrates how to correctly make post and get request to
 the heart rate sentinel server."""
 
 # make new patient post request
-attending_email = "youemail@email.com"
+attending_email = "hw188@duke.edu"
 user_age = [0.3, 1, 12, 19, 23, 32, 38, 41, 55, 70, 90]
 
 for patient_id, user_age in enumerate(user_age):
     p1 = {
         "patient_id": str(patient_id + 1),
-        "attending_email": "hw188@duke.edu",
+        "attending_email": attending_email,
         "user_age": user_age,  # in years
     }
     r = requests.post("http://127.0.0.1:5000/api/new_patient", json=p1)
