@@ -6,6 +6,7 @@ import logging
 from validate_input import validate_new_patient
 from check_is_tachycardic import check_tachycardic
 from average_heart_rate import find_average_heart_rate
+import timestring
 
 """
     This is the serve for this heart rate
@@ -101,18 +102,18 @@ def post_interval_average():
                 patient.get('heart_rate_average_since') \
                     .append(r['heart_rate_average_since'])
                 index_time_since = [index for index, time in enumerate(
-                    patient_list.get('heart_rate_time'))
-                                    if time < r['heart_rate_average_since']]
-            list_heart_rate = []
-            for n in index_time_since:
-                list_heart_rate.append(patient.get('heart_rate')[n])
-            average_heartrate = find_average_heart_rate(list_heart_rate)
+                    patient.get('heart_rate_time'))
+                                    if time < timestring.
+                                    Date(r['heart_rate_average_since']).date]
+                list_heart_rate = []
+                for n in index_time_since:
+                    list_heart_rate.append(patient.get('heart_rate')[n])
+                average_heartrate = find_average_heart_rate(list_heart_rate)
 
-            return jsonify({"message": "Patient {0} average heart rate since "
-                                       "{1} is {2}"
-                           .format(r['patient_id'],
-                                   r['heart_rate_average_since'],
-                                   average_heartrate)})
+        return jsonify({"message": "Patient {0} average heart rate since {1} "
+                                   "is {2}"
+                       .format(r['patient_id'], r['heart_rate_average_since'],
+                               average_heartrate)})
     except KeyError as error:
         logging.error(error)
         return jsonify({"message": "Error occurred, check your inputs"}), 500
@@ -138,12 +139,13 @@ def get_status(patient_id):
                                                    latest_heart_rate)
 
                 if is_tachycardic == "tachycardic":
-                    sg = sendgrid.SendGridAPIClient(apikey=os.environ.get('SENDGRID_API_KEY'))
+                    sg = sendgrid.SendGridAPIClient(apikey=os.environ.get(
+                        'SENDGRID_API_KEY'))
                     from_email = "SOS@tachycardic.com"
                     to_email = patient.get('attending_email')
-                    subject = "Your patient is Tachycardic"
-                    content = "Your patient id {0} is tachycardic at {1}".format(patient_id,
-                                                                                 patient.get('heart_rate_time')[-1])
+                    subject = "Your patient has tachycardia"
+                    content = "Patient id {0} had tachycardia at {1}" \
+                        .format(patient_id, patient.get('heart_rate_time')[-1])
                     data = {
                         "personalizations": [
                             {
@@ -168,7 +170,7 @@ def get_status(patient_id):
                     response = sg.client.mail.send.post(request_body=data)
                     print(response.status_code)
 
-        return jsonify("patient {0} is {1} tachycardic".format(patient_id, is_tachycardic))
+        return jsonify("patient {0} is {1}".format(patient_id, is_tachycardic))
 
     except KeyError as error:
         logging.error(error)
@@ -178,7 +180,7 @@ def get_status(patient_id):
 @app.route("/api/heart_rate/<patient_id>", methods=['GET'])
 def get_patient_heart_rate(patient_id):
     """
-    this method allow user to retrieve the latest heart rate
+    this method allow user to retrieve all heart rate
     of a patient
     :param patient_id: string, patient id number
     :return: whether it the patient exist or successfully
@@ -188,8 +190,7 @@ def get_patient_heart_rate(patient_id):
         for patient in patient_list:
             if patient_id == patient.get('patient_id'):
                 list_heart_rate = patient.get('heart_rate')
-        return jsonify("patient {0}'s average heart rate is {1}"
-                       .format(patient_id, list_heart_rate))
+        return jsonify(list(list_heart_rate))
     except KeyError as error:
         logging.error(error)
         return jsonify({"message": "Error occurred, check your inputs"}), 500
@@ -209,7 +210,7 @@ def get_average_heart_rate(patient_id):
                 average_heart_rate = find_average_heart_rate(
                     patient.get('heart_rate'))
 
-        return jsonify("patient {0}'s average heart rate is {1}"
+        return jsonify("patient {0}'s average heart rate is {1} bpm"
                        .format(patient_id, average_heart_rate))
     except KeyError as error:
         logging.error(error)
