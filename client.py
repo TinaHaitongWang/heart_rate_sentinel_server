@@ -16,7 +16,8 @@ for patient_id, user_age in enumerate(user_age):
         "attending_email": attending_email,
         "user_age": user_age,  # in years
     }
-    r = requests.post("http://vcm-7385.vm.duke.edu:5000/api/new_patient", json=p1)
+    r = requests.post("http://vcm-7385.vm.duke.edu:5000/api/new_patient",
+                      json=p1)
     print(r.text)
 
 
@@ -27,7 +28,8 @@ for num_heart_rate in range(20):
             "patient_id": str(patient + 1),
             "heart_rate": randint(40, 200)
         }
-        r = requests.post("http://vcm-7385.vm.duke.edu:5000/api/heart_rate", json=p1)
+        r = requests.post("http://vcm-7385.vm.duke.edu:5000/api/heart_rate",
+                          json=p1)
         print(r.text)
 
 
@@ -39,25 +41,25 @@ for patient in range(10):
 
 # get status of patient
 for patient in range(10):
-    r = requests.get("http://vcm-7385.vm.duke.edu:5000/api/status/{0}"
+    r = requests.get("http://vcm-7385.vm.duke.edu:5000/api/status/"
+                     "{0}"
                      .format(patient+1))
     print(r.text)
 
 # get average heart rate of patient
 for patient in range(10):
-    r = requests.get("http://vcm-7385.vm.duke.edu:5000/api/heart_rate/average/{0}"
+    r = requests.get("http://vcm-7385.vm.duke.edu:5000/api/heart_rate/average/"
+                     "{0}"
                      .format(patient+1))
     print(r.text)
 
 # get /api/heart_rate/interval_average
-"""
 for patient in range(10):
     p1 = {
             "patient_id": str(patient+1),
             "heart_rate_average_since": "2018-11-15 22:55:03"
         }
-    r = requests.post("http://vcm-7385.vm.duke.edu:5000/api/heart_rate/interval_average",
+    r = requests.post("http://vcm-7385.vm.duke.edu:5000/api/heart_rate"
+                      "/interval_average",
                       json=p1)
     print(r.text)
-
-"""
