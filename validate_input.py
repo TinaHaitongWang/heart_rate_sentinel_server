@@ -1,4 +1,5 @@
 import logging
+import datetime
 
 
 def validate_new_patient(r):
@@ -8,10 +9,13 @@ def validate_new_patient(r):
     :param r: test data/ user input
     :return: is_validate, boolean, True or False
     """
-    is_validate = False
+    is_validate = [False, False, False, False, False]
     try:
-        is_validate = (r['patient_id']).isalpha()
-        is_validate = r['patient_id'].isdigit()
+        is_validate[0] = r['patient_id'].isdigit()
+        if len(r) == 3:
+            is_validate[1] = True
+        else:
+            is_validate[1] = False
     except ValueError:
         logging.error("Please enter a number")
     except AttributeError:
@@ -20,7 +24,17 @@ def validate_new_patient(r):
         logging.error("Please input string")
 
     try:
-        is_validate = (r['attending_email']).isalpha()
+        for index, char in enumerate(r['attending_email']):
+            if char == '@':
+                index1 = index
+            elif char == '.':
+                index2 = index
+
+        if index1 < index2:
+            is_validate[2] = True
+        else:
+            is_validate[2] = False
+
     except ValueError:
         logging.error("Empty attending email")
     except TypeError:
@@ -28,15 +42,25 @@ def validate_new_patient(r):
 
     try:
         if (r['user_age']) > 0:
-            is_validate = True
+            is_validate[3] = True
         else:
+            is_validate[3] = False
             logging.error("Please enter the valid age")
     except ValueError:
         logging.error("Please enter a number")
     except TypeError:
         logging.error("Please enter a number")
 
-    return is_validate
+    try:
+        if isinstance(r['patient_id'], str) and \
+                isinstance(r['attending_email'], str):
+            is_validate[4] = True
+        else:
+            is_validate[4] = False
+    except ValueError:
+        logging.error("Please enter a string")
+
+    return all(element for element in is_validate)
 
 
 def is_patient_id_exist(patient_id, patient_list):
@@ -56,17 +80,78 @@ def is_patient_id_exist(patient_id, patient_list):
     except ValueError:
         logging.error("Please enter the valid id in string")
     return is_patient_id_exist
-# if __name__ == '__main__':
-#     p1 = {"patient_id": "1",
-#           "attending_email": "comehelpme@bestdoc.com",
-#           "user_age": 40}
-#     p2 = {"patient_id": 1,
-#           "attending_email": "comehelpme@bestdoc.com",
-#           "user_age": "3"}
-#     p3 = {"patient_id": "5",
-#           "attending_email": "comehelpme@bestdoc.com",
-#           "user_age": 55}
-#     patient_list = [p1, p2, p3]
-#     patient_id = "4"
-#     out = validate_new_patient(p2)
-#     print(out)
+
+
+def validate_heart_rate_input(r):
+    """
+    this function validate if the post request input heart_rate is
+    in the correct format
+    :param r: post request input
+    :return: is_validate, boolean
+    """
+    is_validate = [False, False, False, False]
+    try:
+        is_validate[0] = r['patient_id'].isdigit()
+        is_validate[1] = isinstance(r['heart_rate'], int)
+        if not is_validate[1]:
+            is_validate[1] = isinstance(r['heart_rate'], float)
+        if len(r) == 2:
+            is_validate[2] = True
+        else:
+            is_validate[2] = False
+    except KeyError:
+        logging.error("Please enter a valid input")
+    except ValueError:
+        logging.error("Please enter a number")
+    except AttributeError:
+        logging.error("Please enter a string")
+    except TypeError:
+        logging.error("Please input string")
+
+    try:
+        if isinstance(r['patient_id'], str):
+            is_validate[3] = True
+        else:
+            is_validate[3] = False
+    except ValueError:
+        logging.error("Please enter a string")
+
+    return all(element for element in is_validate)
+
+
+def validate_interval_average_input(r):
+    """
+    this function test whether input for interval average
+    is in the correct format
+    :param r: post request input
+    :return: is_validate, boolean
+    """
+    is_validate = [False, False, False, False]
+    try:
+        is_validate[0] = r['patient_id'].isdigit()
+        fmt = '%Y-%m-%d %H:%M:%S.%f'
+        try:
+            datetime.datetime.strptime(r['heart_rate_average_since'], fmt)
+            is_validate[1] = True
+        except ValueError:
+            logging.error("Please enter a number")
+            is_validate[1] = False
+        if len(r) == 2:
+            is_validate[2] = True
+        else:
+            is_validate[2] = False
+    except AttributeError:
+        logging.error("Please enter a string")
+    except TypeError:
+        logging.error("Please input string")
+
+    try:
+        if isinstance(r['patient_id'], str) and \
+                isinstance(r['heart_rate_average_since'], str):
+            is_validate[3] = True
+        else:
+            is_validate[3] = False
+    except ValueError:
+        logging.error("Please enter a string")
+
+    return all(element for element in is_validate)

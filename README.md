@@ -54,7 +54,7 @@ _Following table contains all functional files for this application_
         
         1.2.1 server.py is the main file host all activities. It is deployed on the 
               duke vm. In order to send post/get request to this server use/adapt the 
-              following code, the server address is. 
+              following code, the server address is vcm-7385.vm.duke.edu:5000. 
               
               Please follow the format below to post and get: 
               
@@ -111,10 +111,10 @@ user_age = [0.3, 1, 12, 19, 23, 32, 38, 41, 55, 70, 90]
 for patient_id, user_age in enumerate(user_age):
     p1 = {
         "patient_id": str(patient_id +1),
-        "attending_email": "hw188@duke.edu",
+        "attending_email": "emailme@email.com",
         "user_age": user_age,  # in years
     }
-    r = requests.post("http://127.0.0.1:5000/api/new_patient", json=p1)
+    r = requests.post("http://vcm-7385.vm.duke.edu:5000/api/new_patient", json=p1)
     print(r.text)
 
 
@@ -125,23 +125,23 @@ for num_heart_rate in range(20):
             "patient_id": str(patient+1),
             "heart_rate": randint(40, 200)
         }
-        r = requests.post("http://127.0.0.1:5000/api/heart_rate", json=p1)
+        r = requests.post("http://vcm-7385.vm.duke.edu:5000/api/heart_rate", json=p1)
         print(r.text)
 
 
 # get all heart rate to patient
 for patient in range(10):
-    r = requests.get("http://127.0.0.1:5000/api/heart_rate/{0}".format(patient+1))
+    r = requests.get("http://vcm-7385.vm.duke.edu:5000/api/heart_rate/{0}".format(patient+1))
     print(r.text)
 
 # get status of patient
 for patient in range(10):
-    r = requests.get("http://127.0.0.1:5000/api/status/{0}".format(patient+1))
+    r = requests.get("http://vcm-7385.vm.duke.edu:5000/api/status/{0}".format(patient+1))
     print(r.text)
 
 # get average heart rate of patient
 for patient in range(10):
-    r = requests.get("http://127.0.0.1:5000/api/heart_rate/average/{0}".format(patient+1))
+    r = requests.get("http://vcm-7385.vm.duke.edu:5000/api/heart_rate/average/{0}".format(patient+1))
     print(r.text)
 
 # get /api/heart_rate/interval_average
@@ -150,7 +150,7 @@ for patient in range(10):
             "patient_id": str(patient+1),
             "heart_rate_average_since": "2018-11-15 22:55:03"
         }
-    r = requests.post("http://127.0.0.1:5000/api/heart_rate/interval_average", json=p1)
+    r = requests.post("http://vcm-7385.vm.duke.edu:5000/api/heart_rate/interval_average", json=p1)
     print(r.text)
 
 ```
@@ -165,7 +165,8 @@ for patient in range(10):
         pip3 install virtualenv
         git clone http 
         export SENDGRID_API_KEY='Your SENDGRID key'
-        FLASK_APP=server.py flask run
+        FLASK_APP=server.py flask run or 
+        gunicorn --bind 0.0.0.0:5000 --workers 4 server:app
         
         To test the server, open another terminal window 
         run client.py test script 
