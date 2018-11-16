@@ -3,7 +3,8 @@ import os
 import sendgrid
 import datetime
 import logging
-from validate_input import validate_new_patient
+from validate_input import validate_new_patient, validate_heart_rate_input,\
+    validate_interval_average_input
 from check_is_tachycardic import check_tachycardic
 from average_heart_rate import find_average_heart_rate
 import timestring
@@ -74,6 +75,7 @@ def add_patient_heart_rate():
     r = request.get_json()
     # add try and exception block to validate the user input from request
     try:
+        validate_heart_rate_input(r)
         for patient in patient_list:
             if r['patient_id'] == patient.get('patient_id'):
                 patient.get('heart_rate').append(r['heart_rate'])
@@ -97,6 +99,7 @@ def post_interval_average():
     """
     r = request.get_json()
     try:
+        validate_interval_average_input(r)
         for patient in patient_list:
             if r['patient_id'] == patient.get('patient_id'):
                 patient.get('heart_rate_average_since') \
