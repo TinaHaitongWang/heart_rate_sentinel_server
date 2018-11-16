@@ -111,7 +111,7 @@ user_age = [0.3, 1, 12, 19, 23, 32, 38, 41, 55, 70, 90]
 for patient_id, user_age in enumerate(user_age):
     p1 = {
         "patient_id": str(patient_id +1),
-        "attending_email": "hw188@duke.edu",
+        "attending_email": "emailme@email.com",
         "user_age": user_age,  # in years
     }
     r = requests.post("http://vcm-7385.vm.duke.edu:5000/api/new_patient", json=p1)
