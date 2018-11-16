@@ -3,7 +3,8 @@ from random import randint
 """
 this function is the client script for the server
 It demonstrates how to correctly make post and get request to
-the heart rate sentinel server."""
+the heart rate sentinel server.
+this is hitting from local machine, http://127.0.0.1"""
 
 # make new patient post request
 attending_email = "youemail@email.com"
