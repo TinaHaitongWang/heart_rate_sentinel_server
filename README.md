@@ -166,7 +166,7 @@ for patient in range(10):
         git clone http 
         export SENDGRID_API_KEY='Your SENDGRID key'
         FLASK_APP=server.py flask run or 
-        gunicorn --bind 0.0.0.0:5000 --workers 4 main:app
+        gunicorn --bind 0.0.0.0:5000 --workers 4 server:app
         
         To test the server, open another terminal window 
         run client.py test script 
