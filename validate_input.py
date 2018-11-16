@@ -5,14 +5,15 @@ def validate_new_patient(r):
     """
     this function validate if the user input patient data is in the correct
     format
-    :param r:
-    :return:
+    :param r: test data/ user input
+    :return: is_validate, boolean, True or False
     """
     is_validate = False
     try:
         is_validate = (r['patient_id']).isalpha()
+        is_validate = r['patient_id'].isdigit()
     except ValueError:
-        logging.error("Empty patient id")
+        logging.error("Please enter a number")
     except AttributeError:
         logging.error("Please enter a string")
     except TypeError:
@@ -39,6 +40,12 @@ def validate_new_patient(r):
 
 
 def is_patient_id_exist(patient_id, patient_list):
+    """
+    this function checks if patient id exists in the patient list
+    :param patient_id: string, in number
+    :param patient_list: list of patient dictionaries
+    :return: is_patient_id_exist, boolean
+    """
     try:
         for patient in patient_list:
             if patient_id == patient['patient_id']:
